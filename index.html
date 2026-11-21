@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b0b0b">
+<meta name="description" content="Myfitness — your training, nutrition and progress in one place.">
+<link rel="manifest" href="manifest.webmanifest">
+<title>Myfitness</title>
+<style>
+:root{--bg:#090909;--panel:#171717;--panel2:#202020;--gold:#d8b65a;--gold2:#f0d98c;--muted:#aaa;--line:#37312a;--white:#f7f4ed}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--white);font:15px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+header{padding:24px 18px 16px;background:linear-gradient(140deg,#17140d,#090909 65%);border-bottom:1px solid var(--line)}
+.brand{color:var(--gold);font-size:26px;font-weight:900;letter-spacing:3px}.tag{color:var(--muted);font-size:10px;letter-spacing:2px;margin-top:4px}
+main{max-width:760px;margin:auto;padding:16px 14px 100px}.hero,.panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:17px;margin-bottom:14px}
+.eyebrow{color:var(--gold);font-size:11px;letter-spacing:1.6px;font-weight:700}.hero h1{font-size:25px;margin:8px 0}.muted{color:var(--muted);line-height:1.5}.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:15px}.stat{background:#222;border-radius:12px;padding:13px}.stat b{display:block;font-size:21px;color:var(--gold);margin-top:4px}
+nav{position:fixed;bottom:0;left:0;right:0;background:#111;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(5,1fr);padding:8px 4px calc(8px + env(safe-area-inset-bottom));z-index:5}
+nav button{background:none;border:0;color:#aaa;font-size:10px;padding:6px 1px}nav button span{display:block;font-size:19px;margin-bottom:3px}nav button.active{color:var(--gold)}
+h2{font-size:19px;margin:0 0 12px}h3{font-size:15px;margin:0 0 8px;color:var(--gold)}
+label{display:block;color:#ccc;font-size:12px;margin:10px 0 5px}input,select,textarea{width:100%;background:#0d0d0d;border:1px solid #494238;border-radius:9px;padding:12px;color:white;font:inherit}
+button.primary{background:var(--gold);color:#17130a;border:0;border-radius:10px;padding:12px 15px;font-weight:800;margin-top:12px;width:100%}
+button.secondary{background:#29251b;color:var(--gold2);border:1px solid #62532d;border-radius:9px;padding:10px 12px;margin-top:8px}
+.item{padding:11px 0;border-bottom:1px solid #333}.item:last-child{border:0}.row{display:flex;justify-content:space-between;gap:10px;align-items:center}.pill{font-size:11px;color:var(--gold);border:1px solid #66562e;border-radius:20px;padding:4px 8px}
+.hidden{display:none}.notice{font-size:12px;color:#b9b2a3;background:#211e17;border-radius:10px;padding:11px;line-height:1.5}
+footer{color:#777;text-align:center;font-size:11px;padding:12px}
+</style>
+</head>
+<body>
+<header><div class="brand">MYFITNESS</div><div class="tag">YOUR FITNESS. YOUR PROGRESS.</div></header>
+<main>
+<section id="home">
+ <div class="hero"><div class="eyebrow">WELCOME TO YOUR FITNESS JOURNEY</div><h1>Train with purpose.</h1><div class="muted">Track your workouts, food and personal progress in one place.</div>
+ <div class="stats"><div class="stat"><span class="muted">Workouts logged</span><b id="workoutCount">0</b></div><div class="stat"><span class="muted">Food entries</span><b id="foodCount">0</b></div></div></div>
+ <div class="panel"><h2>Quick start</h2><div class="row"><span>Log today's training</span><span class="pill">WORKOUTS</span></div><div class="row" style="margin-top:14px"><span>Track what you've eaten</span><span class="pill">NUTRITION</span></div><div class="row" style="margin-top:14px"><span>Record your measurements</span><span class="pill">PROGRESS</span></div></div>
+ <div class="notice">Starter version: entries are saved on this device only. They are not uploaded, shared with an owner, or backed up online.</div>
+</section>
+<section id="workouts" class="hidden">
+ <div class="panel"><h2>Workout log</h2><label>Exercise</label><input id="exercise" placeholder="e.g. Lat pulldown"><div class="row"><div style="flex:1"><label>Sets</label><input id="sets" type="number" min="1" placeholder="3"></div><div style="flex:1"><label>Reps</label><input id="reps" type="number" min="1" placeholder="10"></div><div style="flex:1"><label>Weight (kg)</label><input id="weight" type="number" min="0" step="0.5" placeholder="25"></div></div><button class="primary" onclick="addWorkout()">Save workout</button></div>
+ <div class="panel"><h2>Workout history</h2><div id="workoutList" class="muted">No workouts logged yet.</div></div>
+</section>
+<section id="nutrition" class="hidden">
+ <div class="panel"><h2>Food diary</h2><label>Food or meal</label><input id="food" placeholder="e.g. Chicken pasta"><div class="row"><div style="flex:1"><label>Calories</label><input id="calories" type="number" min="0" placeholder="450"></div><div style="flex:1"><label>Protein (g)</label><input id="protein" type="number" min="0" placeholder="35"></div></div><button class="primary" onclick="addFood()">Add food</button></div>
+ <div class="panel"><h2>Today's entries</h2><div id="foodList" class="muted">No food logged yet.</div></div>
+</section>
+<section id="progress" class="hidden">
+ <div class="panel"><h2>Personal progress</h2><label>Body weight (kg)</label><input id="bodyWeight" type="number" min="0" step="0.1" placeholder="e.g. 80.5"><label>Notes / measurements</label><textarea id="progressNotes" rows="3" placeholder="Waist measurement, personal best, how you feel..."></textarea><button class="primary" onclick="addProgress()">Save progress entry</button></div>
+ <div class="panel"><h2>Progress history</h2><div id="progressList" class="muted">No progress entries yet.</div></div>
+ <div class="notice">Progress entries are private to this browser in this starter version. Photo upload and secure cloud backup are not connected yet.</div>
+</section>
+<section id="more" class="hidden">
+ <div class="panel"><h2>Community</h2><p class="muted">Community sharing will be added when member accounts and privacy controls are connected. Nothing from your private diary is shared here.</p></div>
+ <div class="panel"><h2>Owner dashboard</h2><p class="muted">The secure owner dashboard is not active in this starter version. It must be built with member sign-in, clear disclosure, permission controls and secure cloud storage before an owner can view member records.</p></div>
+ <div class="panel"><h2>Membership plan</h2><div class="eyebrow">PLANNED OFFER</div><h2 style="font-size:25px;margin:7px 0">14 days free</h2><p class="muted">Then £2.99 per month. Payments and subscriptions are not active in this starter version.</p></div>
+</section>
+<footer>MYFITNESS · STARTER VERSION</footer>
+</main>
+<nav>
+<button class="active" data-tab="home" onclick="showTab('home',this)"><span>⌂</span>Home</button>
+<button data-tab="workouts" onclick="showTab('workouts',this)"><span>🏋</span>Workout</button>
+<button data-tab="nutrition" onclick="showTab('nutrition',this)"><span>◉</span>Food</button>
+<button data-tab="progress" onclick="showTab('progress',this)"><span>↗</span>Progress</button>
+<button data-tab="more" onclick="showTab('more',this)"><span>•••</span>More</button>
+</nav>
+<script>
+const get=(k)=>JSON.parse(localStorage.getItem('mf_'+k)||'[]');
+const put=(k,v)=>localStorage.setItem('mf_'+k,JSON.stringify(v));
+function showTab(id,btn){document.querySelectorAll('main section').forEach(s=>s.classList.add('hidden'));document.getElementById(id).classList.remove('hidden');document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));btn.classList.add('active');render();}
+function addWorkout(){let e=document.getElementById('exercise').value.trim();if(!e)return alert('Enter an exercise first.');let a=get('workouts');a.unshift({e,s:sets.value,r:reps.value,w:weight.value,date:new Date().toLocaleDateString()});put('workouts',a);exercise.value='';sets.value='';reps.value='';weight.value='';render();}
+function addFood(){let f=food.value.trim();if(!f)return alert('Enter a food or meal first.');let a=get('foods');a.unshift({f,c:calories.value,p:protein.value,date:new Date().toLocaleDateString()});put('foods',a);food.value='';calories.value='';protein.value='';render();}
+function addProgress(){let a=get('progress');a.unshift({w:bodyWeight.value,n:progressNotes.value,date:new Date().toLocaleDateString()});put('progress',a);bodyWeight.value='';progressNotes.value='';render();}
+function list(id,items,fmt,empty){document.getElementById(id).innerHTML=items.length?items.map(x=>'<div class="item">'+fmt(x)+'</div>').join(''):empty;}
+function render(){let w=get('workouts'),f=get('foods'),p=get('progress');workoutCount.textContent=w.length;foodCount.textContent=f.length;list('workoutList',w,x=>`<div class="row"><b>${esc(x.e)}</b><span class="pill">${esc(x.date)}</span></div><div class="muted">${esc(x.s||'—')} sets · ${esc(x.r||'—')} reps · ${esc(x.w||'—')} kg</div>`,'No workouts logged yet.');list('foodList',f,x=>`<div class="row"><b>${esc(x.f)}</b><span>${esc(x.c||'0')} kcal</span></div><div class="muted">${esc(x.p||'0')}g protein · ${esc(x.date)}</div>`,'No food logged yet.');list('progressList',p,x=>`<div class="row"><b>${esc(x.w||'—')} kg</b><span class="pill">${esc(x.date)}</span></div><div class="muted">${esc(x.n||'')}</div>`,'No progress entries yet.');}
+function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+render();
+if('serviceWorker' in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+</script>
+</body></html>
