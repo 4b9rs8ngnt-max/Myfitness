@@ -24,6 +24,16 @@ button.secondary{background:#29251b;color:var(--gold2);border:1px solid #62532d;
 .hidden{display:none}.notice{font-size:12px;color:#b9b2a3;background:#211e17;border-radius:10px;padding:11px;line-height:1.5}
 footer{color:#777;text-align:center;font-size:11px;padding:12px}
 </style>
+ <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SUPABASE_URL = "https://rvkdlnrockizigomscdm.supabase.co/rest/v1/";
+const SUPABASE_KEY = "sb_publishable_FFmKaGeCd5R_HmeQ65QZdw_mvITZlKG";
+
+const supabase = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+</script>
 </head>
 <body>
 <header><div class="brand">MYFITNESS</div><div class="tag">YOUR FITNESS. YOUR PROGRESS.</div></header>
